@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import MomeForm from "./components/MomeForm";
 import MomeList from "./components/MomeList";
 import { Item } from "./types";
+import Footer from "./components/Footer";
 
 export default function Home() {
   const [items, setItems] = useState<Item[]>([
@@ -50,6 +51,7 @@ export default function Home() {
       <Header />
       <MomeForm onSubmit={onSubmit} />
       <MomeList items={items} />
+      <Footer />
     </div>
   );
 }
