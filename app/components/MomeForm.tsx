@@ -20,7 +20,7 @@ function MomeForm(props: { onSubmit: (data: Item) => void }) {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           className="border p-2 w-full border-bg-main rounded"
-          placeholder="もめごとのタイトル"
+          placeholder="ゴミ出し当番"
         />
       </label>
       <label>
@@ -29,7 +29,7 @@ function MomeForm(props: { onSubmit: (data: Item) => void }) {
           value={description}
           onChange={(e) => setDesription(e.target.value)}
           className="border p-2 w-full h-20 border-bg-main rounded"
-          placeholder="もめごとの詳細"
+          placeholder="ゴミ出しの当番を忘れており、喧嘩になりました。"
         />
       </label>
       <button type="submit" className="bg-bg-main text-text-main p-2 rounded">
