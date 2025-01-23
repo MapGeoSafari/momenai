@@ -14,7 +14,7 @@ function MomeForm(props: { onSubmit: (data: Item) => void }) {
       }}
       className="flex flex-col gap-4"
     >
-      <label className="text-text-sub">
+      <label>
         タイトル
         <input
           value={title}
@@ -23,7 +23,7 @@ function MomeForm(props: { onSubmit: (data: Item) => void }) {
           placeholder="もめごとのタイトル"
         />
       </label>
-      <label className="text-text-sub">
+      <label>
         詳細
         <textarea
           value={description}
