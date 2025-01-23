@@ -1,8 +1,17 @@
 steps:
-# Build the Docker image
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', '${LOCATION}-docker.pkg.dev/${PROJECT_ID}/next-app-repo/next-app-image', '.']
-# Push the Docker image
-- name: 'gcr.io/cloud-builders/docker'
-   args: ['push', '${LOCATION}-docker.pkg.dev/${PROJECT_ID}/next-app-repo/next-app-image']
-
+  # Build the Docker image
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-t",
+        "${LOCATION}-docker.pkg.dev/${PROJECT_ID}/next-app-repo/next-app-image",
+        ".",
+      ]
+  # Push the Docker image
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "push",
+        "${LOCATION}-docker.pkg.dev/${PROJECT_ID}/next-app-repo/next-app-image",
+      ]
