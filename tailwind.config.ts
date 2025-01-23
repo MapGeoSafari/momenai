@@ -7,6 +7,19 @@ export default {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    colors: {
+      bg: {
+        main: "#4A76B3",
+        sub: "#F0F0F0",
+      },
+      text: {
+        main: "#F0F0F0",
+        sub: "#6b7280d9",
+      },
+    },
+    fontFamily: {
+      "noto-sans": ["Noto Sans JP", "sans-serif"],
+    },
     extend: {
       colors: {
         background: "var(--background)",
