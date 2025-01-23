@@ -40,15 +40,13 @@ function MemoItem(props: { item: Item }): ReactElement {
           {events &&
             events.map((event, index) => (
               <li key={index}>
-                <p>
-                  <ul>
-                    {event.soluions.map((solution, index) => (
-                      <li key={index} className="pt-1">
-                        {index + 1}. {solution}
-                      </li>
-                    ))}
-                  </ul>
-                </p>
+                <ul>
+                  {event.soluions.map((solution, index) => (
+                    <li key={index} className="pt-1">
+                      {index + 1}. {solution}
+                    </li>
+                  ))}
+                </ul>
               </li>
             ))}
         </ul>
