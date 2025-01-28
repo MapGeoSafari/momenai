@@ -1,13 +1,13 @@
 "use client";
-import { useState } from "react";
 import Header from "./components/Header";
 import MomeForm from "./components/MomeForm";
 import MomeList from "./components/MomeList";
 import { Item } from "./types";
 import Footer from "./components/Footer";
+import useLocalStorage from "./hooks/useLocalStorage";
 
 export default function Home() {
-  const [items, setItems] = useState<Item[]>([
+  const [storedItems, setStoredItems] = useLocalStorage<Item[]>("items", [
     {
       date: "2021/10/02",
       title: "もめごと1",
@@ -43,14 +43,14 @@ export default function Home() {
   ]);
 
   const onSubmit = (data: Item) => {
-    setItems([data, ...items]);
+    setStoredItems([data, ...storedItems]);
   };
 
   return (
     <div className="items-center justify-items-center max-w-xl mx-auto">
       <Header />
       <MomeForm onSubmit={onSubmit} />
-      <MomeList items={items} />
+      <MomeList items={storedItems} />
       <Footer />
     </div>
   );
