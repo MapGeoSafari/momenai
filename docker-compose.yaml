@@ -1,0 +1,21 @@
+services:
+  openapi:
+    image: swaggerapi/swagger-editor
+    container_name: "swagger-editor"
+    volumes:
+      - ./openapi/tsp-output/@typespec/openapi3/openapi.yaml:/openapi.yaml
+    environment:
+      SWAGGER_FILE: /openapi.yaml
+    ports:
+      - "8001:8080"
+  prism:
+    image: stoplight/prism:latest
+    ports:
+      - "4010:4010"
+    volumes:
+      - ./openapi/tsp-output/@typespec/openapi3/openapi.yaml:/tmp/openapi.yaml
+    command: mock -h 0.0.0.0 /tmp/openapi.yaml
+
+volumes:
+  mgs-db:
+  redis_data:
