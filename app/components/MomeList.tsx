@@ -1,68 +1,80 @@
 "use client";
-import React, { ReactElement } from "react";
-import { Item } from "../types";
 
-function MemoItem(props: { item: Item }): ReactElement {
-  const { item } = props;
-  const { date, title, description, solutions, events } = item;
+import { useState } from 'react';
+import { Item, ProcessResponse } from '../types';
+
+interface MomeListProps {
+  items: Item[];
+}
+
+const MomeList: React.FC<MomeListProps> = ({ items }) => {
+  const [processSteps, setProcessSteps] = useState<{ [key: string]: string[] }>({});
+
+  const handleSolutionClick = async (itemId: string, solution: string) => {
+    try {
+      const response = await fetch('/api/process', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ solution }),
+      });
+
+      if (response.ok) {
+        const data: ProcessResponse = await response.json();
+        if (data.success) {
+          setProcessSteps(prev => ({
+            ...prev,
+            [itemId]: data.process,
+          }));
+        }
+      } else {
+        console.error('プロセスの取得に失敗しました。');
+      }
+    } catch (error) {
+      console.error('プロセスの取得中にエラーが発生しました。', error);
+    }
+  };
+
   return (
-    <div className="w-full p-4 mt-2">
-      <h2 className="font-bold p-2">{date}</h2>
-      <div className="p-5 border border-bg-sub rounded">
-        <h3 className="font-medium p-2">{title}</h3>
-        <p className="text-sm pl-2">{description}</p>
-      </div>
-      <div className="p-5 border border-bg-sub rounded mt-3">
-        <h3 className="font-medium p-2">こうするといいかも</h3>
-        <ul className="text-sm pl-2 pb-3">
-          {solutions &&
-            solutions.map((solution, index) => (
-              <li key={index} className="pt-1">
-                {index + 1}. {solution}
-              </li>
-            ))}
-        </ul>
-
-        <h3 className="font-medium p-2">こんなことがあるかも</h3>
-        <ul className="text-sm pl-2 pb-3">
-          {events &&
-            events.map((event, index) => (
-              <li key={index} className="pt-1">
-                <p>
-                  {index + 1}. {event.problem}
-                </p>
-              </li>
-            ))}
-        </ul>
-
-        <h3 className="font-medium p-2">さらにこうするといいかも</h3>
-        <ul className="text-sm pl-2 pb-3">
-          {events &&
-            events.map((event, index) => (
-              <li key={index}>
-                <ul>
-                  {event.soluions.map((solution, index) => (
-                    <li key={index} className="pt-1">
-                      {index + 1}. {solution}
-                    </li>
+    <div className="mome-list">
+      <h2>記録されたもめごと</h2>
+      {items.length === 0 ? (
+        <p>まだもめごとはありません。</p>
+      ) : (
+        items.map(item => (
+          <div key={item.id} className="mome-item">
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+            <p><strong>日時:</strong> {item.date}</p>
+            <div>
+              <strong>解決策:</strong>
+              <ul>
+                {item.solutions.map((solution, idx) => (
+                  <li key={idx}>
+                    {solution}{' '}
+                    <button onClick={() => handleSolutionClick(item.id, solution)}>
+                      プロセスを見る
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {processSteps[item.id] && (
+              <div className="process-steps">
+                <h4>プロセスステップ</h4>
+                <ol>
+                  {processSteps[item.id].map((step, index) => (
+                    <li key={index}>{step}</li>
                   ))}
-                </ul>
-              </li>
-            ))}
-        </ul>
-      </div>
+                </ol>
+              </div>
+            )}
+          </div>
+        ))
+      )}
     </div>
   );
-}
+};
 
-function MomeList(props: { items: Item[] }): ReactElement {
-  const { items } = props;
-  return (
-    <div className="p-8 w-full">
-      {items.map((item, index) => (
-        <MemoItem key={index} item={item} />
-      ))}
-    </div>
-  );
-}
 export default MomeList;
