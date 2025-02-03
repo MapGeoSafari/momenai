@@ -1,58 +1,44 @@
 "use client";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { Item } from "../types";
+import MomeItem from "./MomeItem";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 
-function Section(props: {
-  sectionTitle: string;
-  items: string[];
+function MomeList(props: {
+  items: Item[];
+  setEditing: (flag: number | undefined) => void;
 }): ReactElement {
-  const { sectionTitle, items } = props;
+  const { items, setEditing } = props;
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
   return (
-    <>
-      <h3 className="font-medium p-2">{sectionTitle}</h3>
-      <ul className="text-sm pl-2 pb-3">
-        {items.map((item, index) => (
-          <li key={index} className="pt-1">
-            {index + 1}. {item}
-          </li>
+    <div className="p-2 w-full flex flex-col items-center">
+      <Calendar
+        className={"rounded p-4"}
+        value={selectedDate}
+        onChange={(date) => {
+          if (date) {
+            setSelectedDate(date as Date);
+          }
+        }}
+        onActiveStartDateChange={({ activeStartDate }) => {
+          if (activeStartDate) {
+            setSelectedDate(activeStartDate);
+          }
+        }}
+      />
+      {items
+        .filter(
+          (item) => new Date(item.date).getMonth() === selectedDate.getMonth()
+        )
+        .map((item, index) => (
+          <MomeItem
+            key={index}
+            item={item}
+            setEditting={() => setEditing(index)}
+          />
         ))}
-      </ul>
-    </>
-  );
-}
-
-function MomeItem(props: { item: Item }): ReactElement {
-  const { item } = props;
-  const { date, title, description, solutions, events } = item;
-  return (
-    <div className="w-full p-4 mt-2">
-      <h2 className="font-bold p-2">{date}</h2>
-      <div className="p-5 border border-bg-sub rounded">
-        <h3 className="font-medium p-2">{title}</h3>
-        <p className="text-sm pl-2">{description}</p>
-      </div>
-      <div className="p-5 border border-bg-sub rounded mt-3">
-        <Section sectionTitle="こうするといいかも" items={solutions || []} />
-        <Section
-          sectionTitle="こんなことがあるかも"
-          items={events?.map((event) => event.problem) || []}
-        />
-        <Section
-          sectionTitle="さらにこうするといいかも"
-          items={events?.flatMap((event) => event.soluions) || []}
-        />
-      </div>
-    </div>
-  );
-}
-
-function MomeList(props: { items: Item[] }): ReactElement {
-  const { items } = props;
-  return (
-    <div className="p-8 w-full">
-      {items.map((item, index) => (
-        <MomeItem key={index} item={item} />
-      ))}
     </div>
   );
 }

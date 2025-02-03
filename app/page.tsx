@@ -5,52 +5,44 @@ import MomeList from "./components/MomeList";
 import { Item } from "./types";
 import Footer from "./components/Footer";
 import useLocalStorage from "./hooks/useLocalStorage";
+import { useState } from "react";
+import MomeEdit from "./components/MomeEdit";
 
 export default function Home() {
   const [storedItems, setStoredItems] = useLocalStorage<Item[]>("items", [
     {
-      date: "2021/10/02",
+      date: "2025/02/02",
       title: "もめごと1",
       description: "もめごとの詳細1",
       solutions: ["解決策1", "解決策2"],
-      events: [
-        {
-          problem: "類似事象1",
-          soluions: ["予防策1", "予防策2"],
-        },
-        {
-          problem: "類似事象2",
-          soluions: ["予防策3", "予防策4"],
-        },
-      ],
     },
     {
-      date: "2021/10/01",
+      date: "2025/02/01",
       title: "もめごと2",
       description: "もめごとの詳細2",
       solutions: ["解決策3", "解決策4"],
-      events: [
-        {
-          problem: "類似事象3",
-          soluions: ["予防策5", "予防策6"],
-        },
-        {
-          problem: "類似事象4",
-          soluions: ["予防策7", "予防策8"],
-        },
-      ],
     },
   ]);
-
-  const onSubmit = (data: Item) => {
-    setStoredItems([data, ...storedItems]);
-  };
+  const [isEditing, setIsEditing] = useState<number | undefined>();
 
   return (
     <div className="items-center justify-items-center max-w-xl mx-auto">
       <Header />
-      <MomeForm onSubmit={onSubmit} />
-      <MomeList items={storedItems} />
+      {isEditing && (
+        <MomeEdit
+          editItem={storedItems[isEditing]}
+          setEditItem={(editItem) => {
+            setStoredItems(
+              storedItems.map((storedItem, index) =>
+                index === isEditing ? editItem : storedItem
+              )
+            );
+            setIsEditing(undefined);
+          }}
+          setEditing={() => setIsEditing(undefined)}
+        />
+      )}
+      {!isEditing && <MomeList items={storedItems} />}
       <Footer />
     </div>
   );
