@@ -7,9 +7,10 @@ import "react-calendar/dist/Calendar.css";
 
 function MomeList(props: {
   items: Item[];
-  setEditing: (flag: number | undefined) => void;
+  setEditing: (id: string | undefined) => void;
+  deleteItem: (id: string) => void;
 }): ReactElement {
-  const { items, setEditing } = props;
+  const { items, setEditing, deleteItem } = props;
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   return (
@@ -28,17 +29,21 @@ function MomeList(props: {
           }
         }}
       />
-      {items
-        .filter(
-          (item) => new Date(item.date).getMonth() === selectedDate.getMonth()
-        )
-        .map((item, index) => (
+      {items.map((item, index) => {
+        if (new Date(item.date).getMonth() !== selectedDate.getMonth())
+          return null;
+        return (
           <MomeItem
             key={index}
             item={item}
-            setEditting={() => setEditing(index)}
+            setEditting={() => setEditing(item.id)}
+            deleteItem={() => {
+              deleteItem(item.id);
+              setEditing(undefined);
+            }}
           />
-        ))}
+        );
+      })}
     </div>
   );
 }

@@ -26,8 +26,9 @@ function Section(props: {
 function MomeItem(props: {
   item: Item;
   setEditting: () => void;
+  deleteItem: () => void;
 }): ReactElement {
-  const { item, setEditting } = props;
+  const { item, setEditting, deleteItem } = props;
   const { date, title, description, solutions, message } = item;
   return (
     <div className="w-full p-4 mt-2">
@@ -37,14 +38,17 @@ function MomeItem(props: {
             <h3 className="font-medium p-2">{title}</h3>
             <p className="text-sm pl-2">{date}</p>
           </div>
-          <button className="bg-bg-main text-text-main p-2 rounded ml-auto">
-            削除
+          <button
+            className="bg-bg-main text-text-main p-2 rounded ml-auto w-8 h-8 flex items-center justify-center"
+            onClick={deleteItem}
+          >
+            🗑
           </button>
           <button
-            className="bg-bg-main text-text-main p-2 rounded ml-2"
-            onClick={() => setEditting()}
+            className="bg-bg-main text-text-main p-2 rounded ml-2 w-8 h-8 flex items-center justify-center"
+            onClick={setEditting}
           >
-            編集
+            ✐
           </button>
         </div>
         {description && <Section sectionTitle="詳細" items={[description]} />}
