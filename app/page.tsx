@@ -7,6 +7,7 @@ import Footer from "./components/Footer";
 import useLocalStorage from "./hooks/useLocalStorage";
 import { useState } from "react";
 import MomeEdit from "./components/MomeEdit";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 export default function Home() {
   const [storedItems, setStoredItems] = useLocalStorage<Item[]>("items", [
@@ -28,25 +29,60 @@ export default function Home() {
   const [isAdding, setIsAdding] = useState(false);
   const [isEditing, setIsEditing] = useState<string | undefined>();
   const addItem = async (item: Item) => {
-    const { message, solutions } = await fetch("/api/create", {
-      method: "POST",
-      body: JSON.stringify(item),
-    }).then((res) => res.json());
-    setStoredItems([...storedItems, { ...item, message, solutions }]);
-    setIsAdding(false);
+    try {
+      const response = await fetch("/api/create", {
+        method: "POST",
+        body: JSON.stringify(item),
+      });
+      const responseJson = await response.json();
+      if (responseJson.candidates.length === 0)
+        throw new Error("No candidates found");
+      if (responseJson.candidates[0].content.parts.length === 0)
+        throw new Error("No parts found");
+      console.log(responseJson);
+      console.log(responseJson.andidates);
+      console.log(responseJson.candidates[0].content.parts[0]);
+      const { message, solutions } = JSON.parse(
+        responseJson.candidates[0].content.parts[0].text
+      );
+
+      setStoredItems([...storedItems, { ...item, message, solutions }]);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsAdding(false);
+    }
   };
   const editItem = async (item: Item) => {
-    const { message, solutions } = await fetch("/api/create", {
-      method: "POST",
-      body: JSON.stringify(item),
-    }).then((res) => res.json());
+    try {
+      const response = await fetch("/api/create", {
+        method: "POST",
+        body: JSON.stringify(item),
+      });
+      const responseJson = await response.json();
+      if (responseJson.candidates.length === 0)
+        throw new Error("No candidates found");
+      if (responseJson.candidates[0].content.parts.length === 0)
+        throw new Error("No parts found");
+      console.log(responseJson);
+      console.log(responseJson.andidates);
+      console.log(responseJson.candidates[0].content.parts[0]);
+      const { message, solutions } = JSON.parse(
+        responseJson.candidates[0].content.parts[0].text
+      );
 
-    setStoredItems(
-      storedItems.map((storedItem) =>
-        storedItem.id === item.id ? { ...item, message, solutions } : storedItem
-      )
-    );
-    setIsEditing(undefined);
+      setStoredItems(
+        storedItems.map((storedItem) =>
+          storedItem.id === item.id
+            ? { ...item, message, solutions }
+            : storedItem
+        )
+      );
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsEditing(undefined);
+    }
   };
   const deleteItem = (id: string) => {
     setStoredItems(storedItems.filter((item) => item.id !== id));
@@ -65,7 +101,7 @@ export default function Home() {
               editItem(item);
               setIsEditing(undefined);
             }}
-            setEditing={() => setIsEditing(undefined)}
+            cancelEditing={() => setIsEditing(undefined)}
           />
         )}
       {!isAdding && typeof isEditing !== "string" && (
@@ -82,7 +118,7 @@ export default function Home() {
               }}
               className="rounded-full border-2 border-bg-bg-main w-12 h-12 flex items-center justify-center bg-bg-main text-text-main"
             >
-              +
+              <Icon icon="mdi-light:plus" />
             </button>
           </div>
         </>
@@ -93,6 +129,7 @@ export default function Home() {
             addItem(item);
             setIsAdding(false);
           }}
+          cancelSubmit={() => setIsAdding(false)}
         />
       )}
       <Footer />

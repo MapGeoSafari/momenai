@@ -5,9 +5,9 @@ import { Item } from "../types";
 function MomeEdit(props: {
   editItem: Item;
   setEditItem: (item: Item) => void;
-  setEditing: () => void;
+  cancelEditing: () => void;
 }): ReactElement {
-  const { editItem, setEditItem, setEditing } = props;
+  const { editItem, setEditItem, cancelEditing } = props;
   const [item, setItem] = useState(editItem);
   const { date, title, description } = item;
   return (
@@ -41,11 +41,11 @@ function MomeEdit(props: {
           />
         </label>
       </div>
-      <div className="flex justify-between mt-2 gap-2">
+      <div className="flex justify-center m-2 gap-2">
         <button
           type="button"
           className="bg-bg-main text-text-main p-2 rounded"
-          onClick={() => setEditing()}
+          onClick={() => cancelEditing()}
         >
           編集をキャンセル
         </button>
@@ -54,7 +54,7 @@ function MomeEdit(props: {
           className="bg-bg-main text-text-main p-2 rounded"
           onClick={() => {
             setEditItem(item);
-            setEditing();
+            cancelEditing();
           }}
         >
           編集を完了

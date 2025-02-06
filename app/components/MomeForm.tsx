@@ -1,20 +1,17 @@
 "use client";
-import React, { useState } from "react";
+import React, { ReactElement, useState } from "react";
 import { Item } from "../types";
 import { nanoid } from "nanoid";
 
-function MomeForm(props: { onSubmit: (data: Item) => void }) {
-  const { onSubmit } = props;
+function MomeForm(props: {
+  onSubmit: (data: Item) => void;
+  cancelSubmit: () => void;
+}): ReactElement {
+  const { onSubmit, cancelSubmit } = props;
   const [date, setDate] = useState(new Date().toLocaleDateString());
   const [description, setDesription] = useState("");
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        onSubmit({ id: nanoid(), date, description });
-      }}
-      className="flex flex-col gap-4 h-full"
-    >
+    <div className="flex flex-col gap-4 h-full">
       <label>
         もめごと
         <textarea
@@ -33,15 +30,23 @@ function MomeForm(props: { onSubmit: (data: Item) => void }) {
           placeholder="2021/10/02"
         />
       </label>
-      <div className="flex justify-between gap-2">
-        <button type="submit" className="bg-bg-main text-text-main p-2 rounded">
-          キャンセル
+      <div className="flex justify-center m-2 gap-2">
+        <button
+          type="button"
+          className="bg-bg-main text-text-main p-2 rounded"
+          onClick={cancelSubmit}
+        >
+          記録をキャンセル
         </button>
-        <button type="submit" className="bg-bg-main text-text-main p-2 rounded">
+        <button
+          type="button"
+          className="bg-bg-main text-text-main p-2 rounded"
+          onClick={(e) => onSubmit({ id: nanoid(), date, description })}
+        >
           もめごとを記録
         </button>
       </div>
-    </form>
+    </div>
   );
 }
 

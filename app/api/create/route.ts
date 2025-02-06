@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { GoogleAuth } from "google-auth-library";
 import axios from "axios";
-import { Item } from "../types";
 
 export async function POST(request: Request) {
   // リクエストボディの取得
@@ -10,50 +9,58 @@ export async function POST(request: Request) {
   const auth = new GoogleAuth({
     scopes: [process.env.VERTEX_AI_SCOPE || ""],
   });
+
+  console.log("auth", auth);
+
   const client = await auth.getClient();
   const accessTokenResponse = await client.getAccessToken();
   const accessToken = accessTokenResponse.token || accessTokenResponse;
 
   const endpointUrl = process.env.VERTEX_AI_ENDPOINT_URL || "";
-
   const requestBody = {
-    instances: [
+    contents: [
       {
-        content: `
-You are so smart mediator.
-There is a conflict and you have to deal with it.
-You have to solve the conflict and output the solution following the format below.
-lang: ja-jp
-
-# Conflict
-${body.description}
-
-# Output format
-\`\`\`json
-{
-type:"object",
-properties:{
-solutions:{type:"array", items:{type:"string"}, description:"A list of solutions to the conflict"},
-message:{type:"string", description:"A message to make the user feel better"}
-title: {type:"string", description:"Title of the conflict"}
-}
-}
-\`\`\`
-
-
-# Output example
-\`\`\`json
-{
-solutions:["solution1", "solution2"],
-message:"You can do it!",
-title:"Conflict title"
-}
-\`\`\`
-
-# Output lang:ja-jp
-`,
+        role: "user",
+        parts: [
+          {
+            text: body.description,
+          },
+        ],
       },
     ],
+    systemInstruction: {
+      role: "system",
+      parts: [
+        {
+          text: `
+You are so smart mediator.
+User has concerns with someone who the user has a conflict with.
+The user wants to improve the relationship with the person.
+The user input a conflict and you have to solve it.
+You have to solve the conflict and output the solution following the format below.
+lang: ja-jp`,
+        },
+      ],
+    },
+    generationConfig: {
+      responseMimeType: "application/json",
+      responseSchema: {
+        type: "object",
+        properties: {
+          solutions: {
+            type: "array",
+            items: { type: "string" },
+            description: "A list of solutions to the conflict",
+          },
+          message: {
+            type: "string",
+            description: "A message to make the user feel better",
+          },
+          title: { type: "string", description: "Title of the conflict" },
+        },
+        required: ["solutions", "message", "title"],
+      },
+    },
   };
 
   try {
@@ -65,6 +72,7 @@ title:"Conflict title"
     });
     return NextResponse.json(response.data);
   } catch (error) {
+    console.dir(error, { depth: null });
     console.error("Vertex AI リクエストエラー:", error);
     return NextResponse.json(
       { error: "Vertex AI へのリクエストに失敗しました。" },

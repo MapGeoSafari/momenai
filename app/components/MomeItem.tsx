@@ -1,6 +1,7 @@
 "use client";
 import React, { ReactElement } from "react";
 import { Item } from "../types";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 function Section(props: {
   sectionTitle: string;
@@ -42,13 +43,13 @@ function MomeItem(props: {
             className="bg-bg-main text-text-main p-2 rounded ml-auto w-8 h-8 flex items-center justify-center"
             onClick={deleteItem}
           >
-            🗑
+            <Icon icon="fluent:delete-24-regular" />
           </button>
           <button
             className="bg-bg-main text-text-main p-2 rounded ml-2 w-8 h-8 flex items-center justify-center"
             onClick={setEditting}
           >
-            ✐
+            <Icon icon="fluent:edit-16-regular" />
           </button>
         </div>
         {description && <Section sectionTitle="詳細" items={[description]} />}
