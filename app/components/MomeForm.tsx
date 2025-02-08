@@ -22,7 +22,7 @@ function MomeForm(props: {
         />
       </label>
       <label>
-        もめごと詳細
+        もめごと
         <textarea
           value={description}
           onChange={(e) => setDesription(e.target.value)}

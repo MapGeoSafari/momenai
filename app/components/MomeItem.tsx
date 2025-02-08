@@ -52,10 +52,10 @@ function MomeItem(props: {
             <Icon icon="fluent:edit-16-regular" />
           </button>
         </div>
-        {description && <Section sectionTitle="📝 もめごと詳細" items={[description]} />}
-        {message && <Section sectionTitle="🤖 AIアドバイス" items={[message]} />}
+        {description && <Section sectionTitle="📝 もめごと" items={[description]} />}
+        {message && <Section sectionTitle="🤖 AIコメント" items={[message]} />}
         {solutions && (
-          <Section sectionTitle="💡 解決策のヒント" items={solutions || []} isNumbering />
+          <Section sectionTitle="💡 ヒント" items={solutions || []} isNumbering />
         )}
       </div>
     </div>

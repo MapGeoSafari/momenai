@@ -23,7 +23,7 @@ function MomeEdit(props: {
           />
         </label>
         <label>
-          もめごと詳細
+          もめごと
           <input
             type="description"
             className="border p-2 w-full border-bg-main rounded"
