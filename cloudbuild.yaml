@@ -5,7 +5,7 @@ steps:
       [
         "build",
         "-t",
-        "${LOCATION}-docker.pkg.dev/${PROJECT_ID}/next-app-container-repo/next-app-image",
+        "us-docker.pkg.dev/${PROJECT_ID}/next-app-container-repo/next-app-image",
         ".",
       ]
   # Push the Docker image
@@ -13,7 +13,7 @@ steps:
     args:
       [
         "push",
-        "${LOCATION}-docker.pkg.dev/${PROJECT_ID}/next-app-container-repo/next-app-image",
+        "us-docker.pkg.dev/${PROJECT_ID}/next-app-container-repo/next-app-image",
       ]
 options:
   logging: CLOUD_LOGGING_ONLY
