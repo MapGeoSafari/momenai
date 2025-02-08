@@ -11,7 +11,7 @@ function MomeEdit(props: {
   const [item, setItem] = useState(editItem);
   const { date, description } = item;
   return (
-    <div className="w-full p-4 mt-2">
+    <div className="w-full sm:w-full md:w-3/4 lg:w-2/3 p-4 mt-2">
       <div className="p-5 border border-bg-sub rounded">
         <label>
           日付
@@ -24,12 +24,12 @@ function MomeEdit(props: {
         </label>
         <label>
           もめごと
-          <input
-            type="description"
+          <textarea
+            rows="3"
             className="border p-2 w-full border-bg-main rounded"
             value={description}
             onChange={(e) => setItem({ ...item, description: e.target.value })}
-          />
+          ></textarea>
         </label>
       </div>
       <div className="flex justify-center m-2 gap-2">
