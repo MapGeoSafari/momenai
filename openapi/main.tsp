@@ -1,3 +1,10 @@
+import "@typespec/http";
+import "@typespec/rest";
+import "@typespec/openapi3";
+
+using TypeSpec.Http;
+using TypeSpec.Rest;
+
 @service({
     title: "momen.ai API",
 })
@@ -8,84 +15,40 @@
         port: string = "4010",
     }
 )
-namespace momenAIAPI {
+namespace momenAIAPI;
 
-    @route("/api")
-    interface API {
-        @route("/create")
-        @post
-        create(
-            @body
-            body: CreateRequest,
-        ): {
-            @statusCode statusCode:200,
-            @body body: CreateResponse;
-        } | {
-            @statusCode statusCode:400,
-            @body error: ValidationError;
-        } | {
-            @statusCode statusCode:500,
-            @body error: InternalServerError;
-        };
-
-        @route("/timestamp")
-        @post
-        timestamp(
-            @body
-            body: PartialRequest,
-        ): {
-            @statusCode statusCode:200,
-            @body body: TimestampResponse;
-        } | {
-            @statusCode statusCode:500,
-            @body error: InternalServerError;
-        };
-
-        @route("/process")
-        @post
-        process(
-            @body
-            body: ProcessRequest,
-        ): {
-            @statusCode statusCode:200,
-            @body body: ProcessResponse;
-        } | {
-            @statusCode statusCode:500,
-            @body error: InternalServerError;
-        };
+@route("/api")
+interface API {
+    @route("/create")
+    @post
+    create(
+        @body
+        body: Request,
+    ): {
+        @statusCode statusCode:200,
+        @body body:Response;
+    } | {
+        @statusCode statusCode:400,
+        @body error: ValidationError;
+    } | {
+        @statusCode statusCode:500,
+        @body error: InternalServerError;
     }
-
 }
 
-model PartialRequest {
-    title: string;
-    description?: string;
-    // 他の必要なフィールド
+model Request {
+    problem: {
+        title: string;
+        content?: string;
+    }
 }
 
-model TimestampResponse {
-    success: boolean;
-    data: TimestampedEvent;
-}
-
-model TimestampedEvent {
-    title: string;
-    description?: string;
-    timestamp: string;
+model Response {
     solutions: string[];
     events?: {
         problem: string;
         solutions: string[];
     }[];
-}
-
-model ProcessRequest {
-    solution: string;
-}
-
-model ProcessResponse {
-    success: boolean;
-    process: string[];
 }
 
 @error
