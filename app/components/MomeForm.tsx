@@ -41,7 +41,7 @@ function MomeForm(props: {
         <button
           type="button"
           className="bg-bg-main text-text-main p-2 rounded"
-          onClick={(e) => onSubmit({ id: nanoid(), date, description })}
+          onClick={() => onSubmit({ id: nanoid(), date, description })}
         >
           もめごとを記録
         </button>
