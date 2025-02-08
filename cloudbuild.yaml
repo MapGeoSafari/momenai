@@ -4,14 +4,8 @@ steps:
       [
         "build",
         "-t",
-        "us-central1-docker.pkg.dev/momenai/next-app-container-repo/next-app-image",
+        "us-central1-docker.pkg.dev/momenai/cloud-run-source-deploy/momenai/next-app-image",
         "."
-      ]
-  - name: "gcr.io/cloud-builders/docker"
-    args:
-      [
-        "push",
-        "us-central1-docker.pkg.dev/momenai/next-app-container-repo/next-app-image"
       ]
 options:
   logging: CLOUD_LOGGING_ONLY
