@@ -1,7 +1,7 @@
 "use client";
-import React, { ReactElement } from "react";
-import { Item } from "../types";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { ReactElement } from "react";
+import { Item } from "../types";
 
 function Section(props: {
   sectionTitle: string;
@@ -52,10 +52,10 @@ function MomeItem(props: {
             <Icon icon="fluent:edit-16-regular" />
           </button>
         </div>
-        {description && <Section sectionTitle="詳細" items={[description]} />}
-        {message && <Section sectionTitle="一言" items={[message]} />}
+        {description && <Section sectionTitle="📝 もめごと詳細" items={[description]} />}
+        {message && <Section sectionTitle="🤖 AIアドバイス" items={[message]} />}
         {solutions && (
-          <Section sectionTitle="解決策" items={solutions || []} isNumbering />
+          <Section sectionTitle="💡 解決策のヒント" items={solutions || []} isNumbering />
         )}
       </div>
     </div>

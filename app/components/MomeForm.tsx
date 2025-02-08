@@ -1,7 +1,7 @@
 "use client";
-import React, { ReactElement, useState } from "react";
-import { Item } from "../types";
 import { nanoid } from "nanoid";
+import { ReactElement, useState } from "react";
+import { Item } from "../types";
 
 function MomeForm(props: {
   onSubmit: (data: Item) => void;
@@ -13,21 +13,21 @@ function MomeForm(props: {
   return (
     <div className="flex flex-col gap-4 h-full">
       <label>
-        もめごと
-        <textarea
-          value={description}
-          onChange={(e) => setDesription(e.target.value)}
-          className="border p-2 w-full h-20 border-bg-main rounded"
-          placeholder="ゴミ出しの当番を忘れており、喧嘩になりました。"
-        />
-      </label>
-      <label>
         日付
         <input
           value={date}
           onChange={(e) => setDate(e.target.value)}
           className="border p-2 w-full border-bg-main rounded"
           placeholder="2021/10/02"
+        />
+      </label>
+      <label>
+        もめごと詳細
+        <textarea
+          value={description}
+          onChange={(e) => setDesription(e.target.value)}
+          className="border p-2 w-full h-20 border-bg-main rounded"
+          placeholder="ゴミ出しの当番を忘れており、喧嘩になりました。"
         />
       </label>
       <div className="flex justify-center m-2 gap-2">

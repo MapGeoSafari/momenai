@@ -1,30 +1,30 @@
 "use client";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import { useState } from "react";
+import Footer from "./components/Footer";
 import Header from "./components/Header";
+import MomeEdit from "./components/MomeEdit";
 import MomeForm from "./components/MomeForm";
 import MomeList from "./components/MomeList";
-import { Item } from "./types";
-import Footer from "./components/Footer";
 import useLocalStorage from "./hooks/useLocalStorage";
-import { useState } from "react";
-import MomeEdit from "./components/MomeEdit";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Item } from "./types";
 
 export default function Home() {
   const [storedItems, setStoredItems] = useLocalStorage<Item[]>("items", [
-    {
-      id: "1",
-      date: "2025/02/02",
-      title: "もめごと1",
-      description: "もめごとの詳細1",
-      solutions: ["解決策1", "解決策2"],
-    },
-    {
-      id: "2",
-      date: "2025/02/01",
-      title: "もめごと2",
-      description: "もめごとの詳細2",
-      solutions: ["解決策3", "解決策4"],
-    },
+    // {
+    //   id: "1",
+    //   date: "2025/02/02",
+    //   title: "もめごと1",
+    //   description: "もめごとの詳細1",
+    //   solutions: ["解決策1", "解決策2"],
+    // },
+    // {
+    //   id: "2",
+    //   date: "2025/02/01",
+    //   title: "もめごと2",
+    //   description: "もめごとの詳細2",
+    //   solutions: ["解決策3", "解決策4"],
+    // },
   ]);
   const [isAdding, setIsAdding] = useState(false);
   const [isEditing, setIsEditing] = useState<string | undefined>();
