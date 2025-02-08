@@ -1,11 +1,19 @@
 steps:
+  # Build the Docker image
   - name: "gcr.io/cloud-builders/docker"
     args:
       [
         "build",
         "-t",
-        "us-central1-docker.pkg.dev/momenai/cloud-run-source-deploy/momenai/next-app-image",
-        "."
+        "${LOCATION}-docker.pkg.dev/${PROJECT_ID}/next-app-container-repo/next-app-image",
+        ".",
+      ]
+  # Push the Docker image
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "push",
+        "${LOCATION}-docker.pkg.dev/${PROJECT_ID}/next-app-container-repo/next-app-image",
       ]
 options:
   logging: CLOUD_LOGGING_ONLY
