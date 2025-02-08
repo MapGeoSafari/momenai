@@ -1,30 +1,28 @@
 "use client";
-import React, { useState } from "react";
+import { nanoid } from "nanoid";
+import { ReactElement, useState } from "react";
 import { Item } from "../types";
 
-function MomeForm(props: { onSubmit: (data: Item) => void }) {
-  const { onSubmit } = props;
-  const [title, setTitle] = useState("");
+function MomeForm(props: {
+  onSubmit: (data: Item) => void;
+  cancelSubmit: () => void;
+}): ReactElement {
+  const { onSubmit, cancelSubmit } = props;
+  const [date, setDate] = useState(new Date().toLocaleDateString());
   const [description, setDesription] = useState("");
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        onSubmit({ date: new Date().toLocaleDateString(), title, description });
-      }}
-      className="flex flex-col gap-4"
-    >
+    <div className="flex flex-col gap-4 h-full">
       <label>
-        タイトル
+        日付
         <input
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
           className="border p-2 w-full border-bg-main rounded"
-          placeholder="ゴミ出し当番"
+          placeholder="2021/10/02"
         />
       </label>
       <label>
-        詳細
+        もめごと
         <textarea
           value={description}
           onChange={(e) => setDesription(e.target.value)}
@@ -32,10 +30,23 @@ function MomeForm(props: { onSubmit: (data: Item) => void }) {
           placeholder="ゴミ出しの当番を忘れており、喧嘩になりました。"
         />
       </label>
-      <button type="submit" className="bg-bg-main text-text-main p-2 rounded">
-        もめごとを記録
-      </button>
-    </form>
+      <div className="flex justify-center m-2 gap-2">
+        <button
+          type="button"
+          className="bg-bg-main text-text-main p-2 rounded"
+          onClick={cancelSubmit}
+        >
+          記録をキャンセル
+        </button>
+        <button
+          type="button"
+          className="bg-bg-main text-text-main p-2 rounded"
+          onClick={(e) => onSubmit({ id: nanoid(), date, description })}
+        >
+          もめごとを記録
+        </button>
+      </div>
+    </div>
   );
 }
 

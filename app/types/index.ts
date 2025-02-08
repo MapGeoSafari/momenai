@@ -1,10 +1,8 @@
 export type Item = {
+  id: string;
   date: string;
-  title: string;
-  description?: string;
+  description: string;
+  title?: string;
   solutions?: string[];
-  events?: {
-    problem: string;
-    soluions: string[];
-  }[];
+  message?: string;
 };
