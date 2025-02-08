@@ -1,67 +1,49 @@
 "use client";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { Item } from "../types";
+import MomeItem from "./MomeItem";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 
-function MemoItem(props: { item: Item }): ReactElement {
-  const { item } = props;
-  const { date, title, description, solutions, events } = item;
+function MomeList(props: {
+  items: Item[];
+  setEditing: (id: string | undefined) => void;
+  deleteItem: (id: string) => void;
+}): ReactElement {
+  const { items, setEditing, deleteItem } = props;
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
   return (
-    <div className="w-full p-4 mt-2">
-      <h2 className="font-bold p-2">{date}</h2>
-      <div className="p-5 border border-bg-sub rounded">
-        <h3 className="font-medium p-2">{title}</h3>
-        <p className="text-sm pl-2">{description}</p>
-      </div>
-      <div className="p-5 border border-bg-sub rounded mt-3">
-        <h3 className="font-medium p-2">こうするといいかも</h3>
-        <ul className="text-sm pl-2 pb-3">
-          {solutions &&
-            solutions.map((solution, index) => (
-              <li key={index} className="pt-1">
-                {index + 1}. {solution}
-              </li>
-            ))}
-        </ul>
-
-        <h3 className="font-medium p-2">こんなことがあるかも</h3>
-        <ul className="text-sm pl-2 pb-3">
-          {events &&
-            events.map((event, index) => (
-              <li key={index} className="pt-1">
-                <p>
-                  {index + 1}. {event.problem}
-                </p>
-              </li>
-            ))}
-        </ul>
-
-        <h3 className="font-medium p-2">さらにこうするといいかも</h3>
-        <ul className="text-sm pl-2 pb-3">
-          {events &&
-            events.map((event, index) => (
-              <li key={index}>
-                <ul>
-                  {event.soluions.map((solution, index) => (
-                    <li key={index} className="pt-1">
-                      {index + 1}. {solution}
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-        </ul>
-      </div>
-    </div>
-  );
-}
-
-function MomeList(props: { items: Item[] }): ReactElement {
-  const { items } = props;
-  return (
-    <div className="p-8 w-full">
-      {items.map((item, index) => (
-        <MemoItem key={index} item={item} />
-      ))}
+    <div className="p-2 w-full flex flex-col items-center">
+      <Calendar
+        className={"rounded p-4"}
+        value={selectedDate}
+        onChange={(date) => {
+          if (date) {
+            setSelectedDate(date as Date);
+          }
+        }}
+        onActiveStartDateChange={({ activeStartDate }) => {
+          if (activeStartDate) {
+            setSelectedDate(activeStartDate);
+          }
+        }}
+      />
+      {items.map((item, index) => {
+        if (new Date(item.date).getMonth() !== selectedDate.getMonth())
+          return null;
+        return (
+          <MomeItem
+            key={index}
+            item={item}
+            setEditting={() => setEditing(item.id)}
+            deleteItem={() => {
+              deleteItem(item.id);
+              setEditing(undefined);
+            }}
+          />
+        );
+      })}
     </div>
   );
 }

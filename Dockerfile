@@ -1,17 +1,17 @@
-FROM node:18-alpine AS builder
+FROM node:20.18-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
-
+# Install dependencies
+COPY package.*json ./
 RUN npm install
 
+# Copy source code
 COPY . .
-
 RUN npm run build
 
-EXPOSE 3000
+# Expose port
+EXPOSE 8080
 
-ENV PORT=3000
-
-CMD ["npm", "run", "dev"]
+# Start the app
+CMD ["npm", "run" ,"start"]
