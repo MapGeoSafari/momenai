@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 本サービス「momen.ai」について
 
-## Getting Started
+## 本サービスが対象とするユーザー像
 
-First, run the development server:
+- 共通の文脈を持たないパートナーや周囲の人間とすれ違いやもめごとの解決をツールを使って小さくしたいと考えている人々
+- 小さくするためのプロセスに難易度を感じている人々
+- すれ違いやもめごとを人に知られず隠れて相談をしたい人々
+  - 例：同棲したてのカップル、シェアハウスをしはじめた人々
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 本サービスが対象としないユーザー像
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- もめごとの解決を求めていない方々
+- 他者への変容を依頼したい方々（転職エージェントや退職代行とは異なる）
+- 薬や医師の診断による解決策を求めている方々
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ユースケース（このアプリが解決できるユースケース）
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. 同棲カップルの家事分担トラブル
+   背景: 田中さんと佐藤さんは新しく同棲を始めました。最初は順調でしたが、徐々に家事の分担に関して意見が食い違い、週に数回小さな口論が発生するようになりました。
+2. カップル間の時間管理の不一致
 
-## Learn More
+   シナリオ: 一方が仕事や趣味に時間を割きすぎて、もう一方が孤独を感じるようになります。
 
-To learn more about Next.js, take a look at the following resources:
+3. カップル間のプライバシー尊重の不足
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   シナリオ: 一方が他方の個人スペースや物を無断で使用することに不満を持っています。
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. ルームメイト間の騒音問題
 
-## Deploy on Vercel
+   背景: 夜遅くまで音楽を大音量で聴くルームメイトがいて、他の住人が睡眠不足に悩まされています。
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+5. シェアハウスでのゴミ出しルールの不一致
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   背景: シェアハウスの住人4人がゴミ出しのタイミングや分別方法について認識にズレがあり、ゴミが溜まることで不満が高まっています。
+
+## 機能要件
+
+1. **★もめごと記録機能（済）**
+2. **★タイムスタンプ機能**
+   1. **カレンダー形式で起きた事象を振り返るようになる**
+3. **★（必要な機能）解決策だけでなく解決策を実行するプロセスまで事細かに提示機能**
+   1. **ライトなアンサーもしくは深堀アンサーかをオプションで選べるようにする。**
+   2. **例：**
+      1. **×：「話し合いを行う」→あいまいすぎて実施できない。実施したとしても何も相談せずに話し合いを行ってしまうから相手の気持ちを害するケースが多い。**
+      2. **〇：「話し合いが必要な理由を考える」→「話し合いが必要だと思うことを伝える」→「話し合いのスケジュールを立てる」→「実際に話し合いを行う。」**
