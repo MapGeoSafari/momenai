@@ -25,7 +25,7 @@ function MomeEdit(props: {
         <label>
           もめごと
           <textarea
-            rows="3"
+            rows={3}
             className="border p-2 w-full border-bg-main rounded"
             value={description}
             onChange={(e) => setItem({ ...item, description: e.target.value })}
