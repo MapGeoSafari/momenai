@@ -8,28 +8,32 @@ function MomeForm(props: {
   cancelSubmit: () => void;
 }): ReactElement {
   const { onSubmit, cancelSubmit } = props;
-  const [date, setDate] = useState(new Date().toLocaleDateString());
-  const [description, setDesription] = useState("");
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  const [description, setDescription] = useState("");
+
   return (
-    <div className="flex flex-col gap-4 h-full">
-      <label>
-        日付
-        <input
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          className="border p-2 w-full border-bg-main rounded"
-          placeholder="2021/10/02"
-        />
-      </label>
-      <label>
-        もめごと
-        <textarea
-          value={description}
-          onChange={(e) => setDesription(e.target.value)}
-          className="border p-2 w-full h-20 border-bg-main rounded"
-          placeholder="ゴミ出しの当番を忘れており、喧嘩になりました。"
-        />
-      </label>
+    <div className="w-full sm:w-full md:w-3/4 lg:w-2/3 p-4 mt-2">
+      <div className="p-5 border border-bg-sub rounded">
+        <label className="block mb-4">
+          日付
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            className="border p-2 w-full border-bg-main rounded"
+          />
+        </label>
+        <label className="block">
+          もめごと
+          <textarea
+            rows={3}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="border p-2 w-full border-bg-main rounded"
+            placeholder="ゴミ出しの当番を忘れてしまい、ケンカになりました。"
+          />
+        </label>
+      </div>
       <div className="flex justify-center m-2 gap-2">
         <button
           type="button"
