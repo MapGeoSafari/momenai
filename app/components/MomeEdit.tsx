@@ -11,7 +11,7 @@ function MomeEdit(props: {
   const [item, setItem] = useState(editItem);
   const { date, description } = item;
   return (
-    <div className="w-full sm:w-full md:w-3/4 lg:w-2/3 p-4 mt-2">
+    <div className="w-full sm:w-full md:w-3/4 lg:w-2/3 p-4 mt-2 mx-auto">
       <div className="p-5 border border-bg-sub rounded">
         <label>
           日付
