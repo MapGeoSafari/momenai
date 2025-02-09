@@ -108,7 +108,7 @@ export default function Home() {
           <div className="max-w-xl mx-auto relative">
             <div className="text-center mt-4 mb-6">
               <h1 className="font-bold whitespace-nowrap text-lg sm:text-xl md:text-2xl">
-                💬 もめごとを記録して、解決のヒントを得よう。
+                もめごとを記録して、解決のヒントを得よう。
               </h1>
             </div>
 
