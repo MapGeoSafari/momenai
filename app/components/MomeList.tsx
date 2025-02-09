@@ -30,6 +30,10 @@ function MomeList(props: {
     return "";
   };
 
+  const sortedItems = items
+    .filter(item => new Date(item.date).getMonth() === selectedDate.getMonth())
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
   return (
     <div className="p-2 w-full flex flex-col items-center">
       <Calendar
@@ -50,20 +54,17 @@ function MomeList(props: {
           border-radius: 9999px !important;
         }
       `}</style>
-      {items.map((item, index) => {
-        if (new Date(item.date).getMonth() !== selectedDate.getMonth()) return null;
-        return (
-          <MomeItem
-            key={index}
-            item={item}
-            setEditting={() => setEditing(item.id)}
-            deleteItem={() => {
-              deleteItem(item.id);
-              setEditing(undefined);
-            }}
-          />
-        );
-      })}
+      {sortedItems.map((item, index) => (
+        <MomeItem
+          key={index}
+          item={item}
+          setEditting={() => setEditing(item.id)}
+          deleteItem={() => {
+            deleteItem(item.id);
+            setEditing(undefined);
+          }}
+        />
+      ))}
     </div>
   );
 }
