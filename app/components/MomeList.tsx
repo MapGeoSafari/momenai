@@ -35,11 +35,7 @@ function MomeList(props: {
       <Calendar
         className="rounded p-4"
         value={selectedDate}
-        onChange={(date) => {
-          if (date) {
-            setSelectedDate(date as Date);
-          }
-        }}
+        onChange={() => {}}
         onActiveStartDateChange={({ activeStartDate }) => {
           if (activeStartDate) {
             setSelectedDate(activeStartDate);
@@ -49,7 +45,7 @@ function MomeList(props: {
       />
       <style jsx global>{`
         .react-calendar__tile.recorded {
-          background: #4A76B3 !important; /* bg-blue-500 の色 */
+          background: #4A76B3 !important;
           color: white !important;
           border-radius: 9999px !important;
         }
